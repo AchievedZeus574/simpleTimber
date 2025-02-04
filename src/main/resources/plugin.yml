@@ -1,0 +1,11 @@
+name: SimpleTimber
+version: '1.0'
+main: com.github.K4RUNIO.simpleTimber.SimpleTimber
+api-version: '1.21'
+authors: [ Karunio ]
+description: Simple plugin that will allow you to chop whole tree at once!
+commands:
+  simpletimber:
+    description: Reload the SimpleTimber configuration.
+    usage: /simpletimber reload
+    permission: simpletimber.reload
