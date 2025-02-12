@@ -1,0 +1,16 @@
+# Whether the plugin is enabled or disabled
+enabled: true
+
+# List of log types that can be timbered
+log-types:
+  - OAK_LOG
+  - SPRUCE_LOG
+  - BIRCH_LOG
+  - JUNGLE_LOG
+  - ACACIA_LOG
+  - DARK_OAK_LOG
+  - CRIMSON_STEM
+  - WARPED_STEM
+  - MANGROVE_LOG
+  - CHERRY_LOG
+  - PALE_OAK_LOG
