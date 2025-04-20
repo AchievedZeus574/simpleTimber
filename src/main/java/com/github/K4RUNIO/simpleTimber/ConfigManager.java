@@ -11,6 +11,7 @@ public class ConfigManager {
     private FileConfiguration config;
     private boolean pluginEnabled;
     private boolean fallingAnimationEnabled;
+    private boolean invertSneakEnabled;
     private final Set<Material> logTypes = new HashSet<>();
 
     public ConfigManager(JavaPlugin plugin) {
@@ -24,6 +25,7 @@ public class ConfigManager {
 
         pluginEnabled = config.getBoolean("enabled", true);
         fallingAnimationEnabled = config.getBoolean("falling-animation", true);
+        invertSneakEnabled = config.getBoolean("invert-sneak", false);
 
         logTypes.clear();
         for (String logName : config.getStringList("log-types")) {
@@ -34,10 +36,16 @@ public class ConfigManager {
                 plugin.getLogger().warning("Invalid log type: " + logName);
             }
         }
+  
 
         if (logTypes.isEmpty()) {
             addDefaultLogTypes();
         }
+    }
+
+      /** true if timber should only trigger when sneaking, rather than when not sneaking */
+      public boolean isInvertSneakEnabled() {
+        return invertSneakEnabled;
     }
 
     private void addDefaultLogTypes() {

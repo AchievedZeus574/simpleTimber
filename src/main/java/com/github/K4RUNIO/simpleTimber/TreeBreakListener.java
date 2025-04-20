@@ -66,7 +66,10 @@ public class TreeBreakListener implements Listener {
     private boolean shouldTriggerTimber(Block block, ItemStack tool, Player player) {
         return plugin.getConfigManager().getLogTypes().contains(block.getType()) &&
                 isAxe(tool.getType()) &&
-                !player.isSneaking();
+                // invert sneak-check if enabled in config
+                (plugin.getConfigManager().isInvertSneakEnabled()
+                   ? player.isSneaking()
+                   : !player.isSneaking());
     }
 
     private void makeTreeFall(Block startBlock, Player player) {
