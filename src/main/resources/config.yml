@@ -4,6 +4,8 @@ enabled: true
 # Whether falling block animation is enabled
 falling-animation: true
 
+#Whether felling should happen when sneaking or not
+invert-sneak: false
 
 # List of log types that can be timbered
 log-types:
