@@ -8,6 +8,7 @@ import org.bukkit.event.*;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -29,12 +30,15 @@ public class TreeBreakListener implements Listener {
             case MANGROVE_LOG: return Material.MANGROVE_PROPAGULE;
             case CRIMSON_STEM: return Material.CRIMSON_FUNGUS;
             case WARPED_STEM:  return Material.WARPED_FUNGUS;
+            case PALE_OAK_LOG: return Material.PALE_OAK_SAPLING;
             default:           return null;
         }
     }
-    private void replantSaplings(Set<Block> brokenLogs, Material logType) {
+    private void replantSaplings(Set<Block> brokenLogs, Material logType, Player player) {
         Material sapling= getSaplingForLog(logType);
         if (sapling== null) return;
+
+        Inventory inv= player.getInventory();
 
         int minY= Integer.MAX_VALUE;
         for (Block b : brokenLogs) {
@@ -48,7 +52,10 @@ public class TreeBreakListener implements Listener {
             Block soil= spot.getRelative(0, -1, 0);
 
             if (spot.getType() == Material.AIR && soil.getType().isSolid()) {
-                spot.setType(sapling);
+                if (inv.contains(sapling)) {
+                    inv.remove(new ItemStack(sapling, 1));
+                    spot.setType(sapling);
+                }
             }
         }
     }
@@ -87,7 +94,7 @@ public class TreeBreakListener implements Listener {
         }
 
         if (plugin.getConfigManager().isReplantSaplingsEnabled()) {
-            replantSaplings(connectedLogs, startLog);
+            replantSaplings(connectedLogs, startLog, player);
         }
 
         event.setCancelled(true);
@@ -129,6 +136,7 @@ public class TreeBreakListener implements Listener {
         for (Block log : connectedLogs) {
             if (log.equals(startBlock)) continue;
 
+            @SuppressWarnings("deprecation")
             FallingBlock fallingBlock = log.getWorld().spawnFallingBlock(
                     log.getLocation().add(0.5, 0, 0.5),
                     log.getBlockData()
