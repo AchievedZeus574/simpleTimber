@@ -1,5 +1,4 @@
 # simpleTimber
 simpleTimber Plugin
 # Lastest Changelog:
-- Added tree falling animation
-- Fixed /reload command
+- Added ability to set crouch to fell or not
