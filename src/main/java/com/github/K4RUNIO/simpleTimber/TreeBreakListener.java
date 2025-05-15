@@ -10,6 +10,7 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+
 import java.util.*;
 
 public class TreeBreakListener implements Listener {
@@ -31,14 +32,24 @@ public class TreeBreakListener implements Listener {
             default:           return null;
         }
     }
-    private void tryReplant(Block original, Material logType) {
-        if (!plugin.getConfigManager().isReplantSaplingsEnabled()) return;
+    private void replantSaplings(Set<Block> brokenLogs, Material logType) {
         Material sapling= getSaplingForLog(logType);
         if (sapling== null) return;
 
-        Block soil= original.getRelative(0, -1, 0);
-        if (soil.getType().isSolid() && original.getType()== Material.AIR) {
-            original.setType(sapling);
+        int minY= Integer.MAX_VALUE;
+        for (Block b : brokenLogs) {
+            minY= Math.min(minY, b.getY());
+        }
+
+        for (Block b: brokenLogs) {
+            if (b.getY() != minY) continue;
+
+            Block spot= b.getWorld().getBlockAt(b.getX(), b.getY(), b.getZ());
+            Block soil= spot.getRelative(0, -1, 0);
+
+            if (spot.getType() == Material.AIR && soil.getType().isSolid()) {
+                spot.setType(sapling);
+            }
         }
     }
 
@@ -64,6 +75,8 @@ public class TreeBreakListener implements Listener {
 
         if (!activeTimberPlayers.contains(player.getUniqueId())) return;
 
+        Set<Block> connectedLogs= findConnectedLogs(block);
+
         Material startLog= block.getType();
 
         activeTimberPlayers.remove(player.getUniqueId());
@@ -73,7 +86,9 @@ public class TreeBreakListener implements Listener {
             breakConnectedLogs(block, player);
         }
 
-        tryReplant(block, startLog);
+        if (plugin.getConfigManager().isReplantSaplingsEnabled()) {
+            replantSaplings(connectedLogs, startLog);
+        }
 
         event.setCancelled(true);
     }

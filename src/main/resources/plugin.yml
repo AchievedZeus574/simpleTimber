@@ -1,5 +1,5 @@
 name: SimpleTimber
-version: '1.2'
+version: '1.4'
 main: com.github.K4RUNIO.simpleTimber.SimpleTimber
 api-version: '1.21'
 authors: [ Karunio ]

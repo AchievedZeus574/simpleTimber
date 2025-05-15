@@ -7,6 +7,9 @@ falling-animation: true
 #Whether felling should happen when sneaking or not
 invert-sneak: false
 
+#Whether saplings should replant when felling
+replant-saplings: false
+
 # List of log types that can be timbered
 log-types:
   - OAK_LOG

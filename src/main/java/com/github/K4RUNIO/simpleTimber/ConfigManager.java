@@ -24,6 +24,9 @@ public class ConfigManager {
         plugin.reloadConfig();
         config = plugin.getConfig();
 
+        config.options().copyDefaults(true);
+        plugin.saveConfig();
+
         pluginEnabled = config.getBoolean("enabled", true);
         fallingAnimationEnabled = config.getBoolean("falling-animation", true);
         invertSneakEnabled = config.getBoolean("invert-sneak", false);
