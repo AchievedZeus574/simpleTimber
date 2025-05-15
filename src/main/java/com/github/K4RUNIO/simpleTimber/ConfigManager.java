@@ -12,6 +12,7 @@ public class ConfigManager {
     private boolean pluginEnabled;
     private boolean fallingAnimationEnabled;
     private boolean invertSneakEnabled;
+    private boolean replantSaplingsEnabled;
     private final Set<Material> logTypes = new HashSet<>();
 
     public ConfigManager(JavaPlugin plugin) {
@@ -26,6 +27,7 @@ public class ConfigManager {
         pluginEnabled = config.getBoolean("enabled", true);
         fallingAnimationEnabled = config.getBoolean("falling-animation", true);
         invertSneakEnabled = config.getBoolean("invert-sneak", false);
+        replantSaplingsEnabled= config.getBoolean("replant-saplings", false);
 
         logTypes.clear();
         for (String logName : config.getStringList("log-types")) {
@@ -47,6 +49,10 @@ public class ConfigManager {
       public boolean isInvertSneakEnabled() {
         return invertSneakEnabled;
     }
+      /** true if saplings should auto-replant after felling trees */
+      public boolean isReplantSaplingsEnabled() {
+        return replantSaplingsEnabled;
+      }
 
     private void addDefaultLogTypes() {
         logTypes.add(Material.OAK_LOG);

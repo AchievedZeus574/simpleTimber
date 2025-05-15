@@ -16,6 +16,31 @@ public class TreeBreakListener implements Listener {
 
     private final SimpleTimber plugin;
     private final Set<UUID> activeTimberPlayers = new HashSet<>();
+    private Material getSaplingForLog(Material log) {
+        switch (log) {
+            case OAK_LOG:      return Material.OAK_SAPLING;
+            case SPRUCE_LOG:   return Material.SPRUCE_SAPLING;
+            case BIRCH_LOG:    return Material.BIRCH_SAPLING;
+            case JUNGLE_LOG:   return Material.JUNGLE_SAPLING;
+            case ACACIA_LOG:   return Material.ACACIA_SAPLING;
+            case DARK_OAK_LOG: return Material.DARK_OAK_SAPLING;
+            case CHERRY_LOG:   return Material.CHERRY_SAPLING;
+            case MANGROVE_LOG: return Material.MANGROVE_PROPAGULE;
+            case CRIMSON_STEM: return Material.CRIMSON_FUNGUS;
+            case WARPED_STEM:  return Material.WARPED_FUNGUS;
+            default:           return null;
+        }
+    }
+    private void tryReplant(Block original, Material logType) {
+        if (!plugin.getConfigManager().isReplantSaplingsEnabled()) return;
+        Material sapling= getSaplingForLog(logType);
+        if (sapling== null) return;
+
+        Block soil= original.getRelative(0, -1, 0);
+        if (soil.getType().isSolid() && original.getType()== Material.AIR) {
+            original.setType(sapling);
+        }
+    }
 
     public TreeBreakListener(SimpleTimber plugin) {
         this.plugin = plugin;
@@ -39,12 +64,17 @@ public class TreeBreakListener implements Listener {
 
         if (!activeTimberPlayers.contains(player.getUniqueId())) return;
 
+        Material startLog= block.getType();
+
         activeTimberPlayers.remove(player.getUniqueId());
         if (plugin.getConfigManager().isFallingAnimationEnabled()) {
             makeTreeFall(block, player);
         } else {
             breakConnectedLogs(block, player);
         }
+
+        tryReplant(block, startLog);
+
         event.setCancelled(true);
     }
 
