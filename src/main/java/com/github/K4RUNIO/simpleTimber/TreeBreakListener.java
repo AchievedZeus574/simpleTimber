@@ -52,17 +52,18 @@ public class TreeBreakListener implements Listener {
             Block soil= spot.getRelative(0, -1, 0);
 
             if (spot.getType() == Material.AIR && soil.getType().isSolid()) {
-                boolean removed= false;
-                for (ItemStack stack : inv.getContents()){
-                    if (stack != null && stack.getType() == sapling && stack.getAmount()> 0){
-                        stack.setAmount(stack.getAmount()- 1);
-                        removed= true;
-                        break;
+                if (plugin.getConfigManager().isRequiredSaplingsEnabled()){
+                    boolean removed= false;
+                    for (ItemStack stack : inv.getContents()){
+                        if (stack != null && stack.getType() == sapling && stack.getAmount()> 0){
+                            stack.setAmount(stack.getAmount()- 1);
+                            removed= true;
+                            break;
+                        }
                     }
+                if (!removed) continue;
                 }
-                if (removed) {
-                    spot.setType(sapling);
-                }
+            spot.setType((sapling));    
             }
         }
     }
