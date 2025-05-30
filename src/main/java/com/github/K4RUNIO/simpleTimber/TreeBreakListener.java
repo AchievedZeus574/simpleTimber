@@ -52,8 +52,15 @@ public class TreeBreakListener implements Listener {
             Block soil= spot.getRelative(0, -1, 0);
 
             if (spot.getType() == Material.AIR && soil.getType().isSolid()) {
-                if (inv.contains(sapling)) {
-                    inv.remove(new ItemStack(sapling, 1));
+                boolean removed= false;
+                for (ItemStack stack : inv.getContents()){
+                    if (stack != null && stack.getType() == sapling && stack.getAmount()> 0){
+                        stack.setAmount(stack.getAmount()- 1);
+                        removed= true;
+                        break;
+                    }
+                }
+                if (removed) {
                     spot.setType(sapling);
                 }
             }
