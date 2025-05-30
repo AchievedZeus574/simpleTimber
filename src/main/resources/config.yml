@@ -10,6 +10,9 @@ invert-sneak: false
 #Whether saplings should replant when felling
 replant-saplings: false
 
+#If replant should check for and remove the proper sapling from inventory
+require-saplings: true
+
 # List of log types that can be timbered
 log-types:
   - OAK_LOG
