@@ -1,3 +1,6 @@
+# This Repo is Archived as of November 12<sup>th</sup>, 2025.
+## All future updates will be uploaded to https://git.breblandmc.world
+
 # (Slightly) Less Simple Timber
 Fork of [Karunio's Simple Timber](https://modrinth.com/plugin/simple-timber) to add some config options that I wanted
 
